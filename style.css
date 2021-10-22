@@ -1,0 +1,101 @@
+*,
+ ::before,
+ ::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+
+/* Header */
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header img {
+    width: 250px;
+    margin-top: 30px;
+}
+
+
+/* Container */
+
+#container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+}
+
+
+/* Search bar */
+
+.search-bar {
+    width: 85%;
+    margin-top: 15px;
+    padding: 15px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: none;
+    background-color: #e7e7e7;
+}
+
+.search-bar:focus {
+    outline: none;
+}
+
+.icon-search {
+    width: 15%;
+    max-height: 45px;
+    float: right;
+    text-align: right;
+    margin-top: 15px;
+    padding: 15px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: none;
+    background-color: #e7e7e7;
+}
+
+
+/* Filters section */
+
+#filters-section {
+    display: flex;
+    flex-direction: row;
+    margin-top: 15px;
+}
+
+#filters-section select {
+    margin-right: 15px;
+    min-width: 100px;
+    height: 45px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#filters-section select:focus {
+    outline: none;
+}
+
+#select-ingredients {
+    background: #3282F7;
+}
+
+#select-appareils {
+    background: #68D9A4;
+}
+
+#select-ustensils {
+    background: #ED6454;
+}
