@@ -71,12 +71,13 @@ header img {
     display: flex;
     flex-direction: row;
     margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 #filters-section select {
     margin-right: 15px;
-    min-width: 100px;
-    height: 45px;
+    min-width: 150px;
+    height: 55px;
     padding-left: 10px;
     padding-right: 10px;
     color: white;
@@ -98,4 +99,70 @@ header img {
 
 #select-ustensils {
     background: #ED6454;
+}
+
+
+/* Section recettes */
+
+#recettes-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 350px);
+    justify-content: space-between;
+    row-gap: 20px;
+}
+
+.cellule-recette {
+    width: 350px;
+    height: 334px;
+    display: flex;
+    flex-direction: column;
+    background: #E7E7E7;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.cellule-recette img {
+    height: 167px;
+    width: 100%;
+    background: #C7BEBE;
+}
+
+.cellule-recette-header {
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cellule-recette-header h2 {
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.cellule-recette-header span {
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+.cellule-recette-content {
+    width: 100%;
+    height: 167px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.cellule-recette-content ul {
+    list-style-type: none;
+    font-size: 12px;
+    width: 45%;
+    padding-left: 15px;
+}
+
+.cellule-recette-content p {
+    width: 50%;
+    font-size: 12px;
+    font-family: 'Roboto', sans-serif;
 }
