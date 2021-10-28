@@ -26,12 +26,28 @@
         </section>
 
         <section id="filters-section">
-            <select name="select-ingredients" id="select-ingredients" onclick="expandWidth(this)">
-                <option value="coco">Coco</option>
-                <option value="banane">Banane</option>
-            </select>
-            <select name="select-appareils" id="select-appareils"></select>
-            <select name="select-ustensils" id="select-ustensils"></select>
+
+            <!-- Div avec les filtres deja selectionne - FLEX WRAP ROW -->
+            <!-- Chaque element de ladiv : MARGIN-RIGHT, MARIGN-TOP, ICON-DELETE-->
+
+            <div class="select">
+                <input name="select-ingredients" id="select-ingredients" type="text">
+                <i id="icon-ingredients-down" class="fas fa-angle-down icon-ingredients" onclick="expandIngredients('select-ingredients')"></i>
+                <i id="icon-ingredients-up" class="fas fa-angle-up icon-ingredients" onclick="reduceIngredients('select-ingredients')"></i>
+            </div>
+
+            <div class="select">
+                <input name="select-appareils" id="select-appareils" type="text">
+                <i id="icon-appareils-down" class="fas fa-angle-down icon-appareils" onclick="expandAppareils('select-appareils')"></i>
+                <i id="icon-appareils-up" class="fas fa-angle-up icon-appareils" onclick="reduceAppareils('select-appareils')"></i>
+            </div>
+
+            <div class="select">
+                <input name="select-ustensils" id="select-ustensils" type="text">
+                <i id="icon-ustensils-down" class="fas fa-angle-down icon-ustensils" onclick="expandUstensils('select-ustensils')"></i>
+                <i id="icon-ustensils-up" class="fas fa-angle-up icon-ustensils" onclick="reduceUstensils('select-ustensils')"></i>
+            </div>
+
 
         </section>
 
@@ -56,7 +72,7 @@
                         <li> <b>Thon : </b> 20g</li>
                     </ul>
                     <p>
-                        Lorem ipsum dolor sit amet. At quos omnis ab velit temporibus vel quis voluptate id possimus velit.
+                        Mettre les glaçons à votre goût dans le blender, ajouter le lait, la crème de coco, le jus de 2 citrons et le sucre. Mixer jusqu'à avoir la consistence désirée
                     </p>
                 </div>
             </article>
