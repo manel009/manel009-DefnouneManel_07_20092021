@@ -99,6 +99,7 @@ header img {
 
 #filters-section i {
     height: 55px;
+    width: 45px;
     padding: 18px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -107,7 +108,8 @@ header img {
 }
 
 #select-ingredients,
-.icon-ingredients {
+.icon-ingredients,
+#select-content-ingredients {
     background: #3282F7;
 }
 
@@ -131,6 +133,23 @@ header img {
 
 #icon-ustensils-up {
     display: none;
+}
+
+.select-content-elements {
+    display: none;
+    grid-template-columns: repeat(auto-fill, 130px);
+    justify-content: space-between;
+    row-gap: 5px;
+    position: absolute;
+    margin-top: 55px;
+    padding-bottom: 5px;
+}
+
+.select-content-element {
+    color: white;
+    padding: 5px;
+    text-decoration: none;
+    font-size: 14px;
 }
 
 
