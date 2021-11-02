@@ -75,6 +75,30 @@ header img {
     margin-bottom: 15px;
 }
 
+.active-filters {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.active-filter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 40px;
+    font-size: 14px;
+    border-radius: 5px;
+    padding-left: 10px;
+    margin-right: 15px;
+    margin-top: 15px;
+    color: white;
+}
+
+.active-filter i {
+    font-size: 18px;
+}
+
 .select {
     display: flex;
     flex-wrap: nowrap;
@@ -97,6 +121,27 @@ header img {
     outline: none;
 }
 
+#filters-section input::placeholder {
+    color: white;
+    font-family: 'Lato', sans-serif;
+    opacity: 1;
+    font-weight: 500;
+}
+
+#filters-section input::-ms-input-placeholder {
+    color: white;
+    font-family: 'Lato', sans-serif;
+    opacity: 1;
+    font-weight: 500;
+}
+
+#filters-section input::-ms-input-placeholder {
+    color: white;
+    font-family: 'Lato', sans-serif;
+    opacity: 1;
+    font-weight: 500;
+}
+
 #filters-section i {
     height: 55px;
     width: 45px;
@@ -107,9 +152,7 @@ header img {
     cursor: pointer;
 }
 
-#select-ingredients,
-.icon-ingredients,
-#select-content-ingredients {
+.fond-ingredients {
     background: #3282F7;
 }
 
@@ -117,8 +160,7 @@ header img {
     display: none;
 }
 
-#select-appareils,
-.icon-appareils {
+.fond-appareils {
     background: #68D9A4;
 }
 
@@ -126,8 +168,7 @@ header img {
     display: none;
 }
 
-#select-ustensils,
-.icon-ustensils {
+.fond-ustensils {
     background: #ED6454;
 }
 
@@ -173,7 +214,7 @@ header img {
 }
 
 .cellule-recette img {
-    height: 167px;
+    min-height: 167px;
     width: 100%;
     background: #C7BEBE;
 }
@@ -188,12 +229,12 @@ header img {
 }
 
 .cellule-recette-header h2 {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: normal;
 }
 
 .cellule-recette-header span {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: bolder;
 }
 
@@ -207,13 +248,16 @@ header img {
 
 .cellule-recette-content ul {
     list-style-type: none;
-    font-size: 12px;
+    font-size: 10px;
     width: 45%;
     padding-left: 15px;
 }
 
 .cellule-recette-content p {
     width: 50%;
-    font-size: 12px;
+    font-size: 10px;
     font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+    white-space: wrap;
+    text-overflow: ellipsis;
 }

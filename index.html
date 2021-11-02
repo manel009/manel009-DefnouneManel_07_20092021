@@ -27,15 +27,52 @@
 
         <section id="filters-section">
 
-            <!-- Div avec les filtres deja selectionne - FLEX WRAP ROW -->
-            <!-- Chaque element de ladiv : MARGIN-RIGHT, MARIGN-TOP, ICON-DELETE-->
+            <div id="active-filters" class="active-filters"></div>
 
             <div class="select">
-                <input name="select-ingredients" id="select-ingredients" type="text">
-                <i id="icon-ingredients-down" class="fas fa-angle-down icon-ingredients" onclick="expandIngredients('select-ingredients')"></i>
-                <i id="icon-ingredients-up" class="fas fa-angle-up icon-ingredients" onclick="reduceIngredients('select-ingredients')"></i>
-                <div id="select-content-ingredients" class="select-content-elements">
-                    <a href="" class="select-content-element">Moutarde de Dijon</a>
+                <input name="select-ingredients" id="select-ingredients" class="fond-ingredients" type="text" placeholder="Ingredients">
+                <i id="icon-ingredients-down" class="fas fa-angle-down fond-ingredients" onclick="expandSelects('ingredients')"></i>
+                <i id="icon-ingredients-up" class="fas fa-angle-up fond-ingredients" onclick="reduceSelects('ingredients')"></i>
+                <div id="select-content-ingredients" class="select-content-elements fond-ingredients">
+                    <a href="#" class="select-content-element" onclick="addFilter('ingredients', this)">Moutarde de Dijon</a>
+                    <a href="#" class="select-content-element" onclick="addFilter('ingredients', this)">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Manel</a>
+                    <a href="" class="select-content-element">Banane plantin</a>
+                    <a href="" class="select-content-element">Banane plantin</a>
+                    <a href="" class="select-content-element">Banane plantin</a>
+                    <a href="" class="select-content-element">Banane plantin</a>
+                    <a href="" class="select-content-element">Banane plantin</a>
+                    <a href="" class="select-content-element">Banane plantin</a>
+                    <a href="" class="select-content-element">Banane plantin</a>
+                    <a href="" class="select-content-element">Banane plantin</a>
+                    <a href="" class="select-content-element">Banane plantin</a>
+                    <a href="" class="select-content-element">Banane plantin</a>
+                    <a href="" class="select-content-element">Banane plantin</a>
+                    <a href="" class="select-content-element">Banane plantin</a>
+                    <a href="" class="select-content-element">Banane plantin</a>
+                </div>
+            </div>
+
+            <div class="select">
+                <input name="select-appareils" id="select-appareils" class="fond-appareils" type="text" placeholder="Appareils">
+                <i id="icon-appareils-down" class="fas fa-angle-down fond-appareils" onclick="expandSelects('appareils')"></i>
+                <i id="icon-appareils-up" class="fas fa-angle-up fond-appareils" onclick="reduceSelects('appareils')"></i>
+                <div id="select-content-appareils" class="select-content-elements fond-appareils">
+                    <a href="#" class="select-content-element" onclick="addFilter('appareils', this)">Moutarde de Dijon</a>
                     <a href="" class="select-content-element">Manel</a>
                     <a href="" class="select-content-element">Manel</a>
                     <a href="" class="select-content-element">Manel</a>
@@ -69,53 +106,11 @@
             </div>
 
             <div class="select">
-                <input name="select-appareils" id="select-appareils" type="text">
-                <!-- <div class="select-content"></div> -->
-                </input>
-                <i id="icon-appareils-down" class="fas fa-angle-down icon-appareils" onclick="expandAppareils('select-appareils')"></i>
-                <i id="icon-appareils-up" class="fas fa-angle-up icon-appareils" onclick="reduceAppareils('select-appareils')"></i>
-                <div id="select-appareils-ingredients" class="select-content-elements">
-                    <a href="" class="select-content-element">Moutarde de Dijon</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Manel</a>
-                    <a href="" class="select-content-element">Banane plantin</a>
-                    <a href="" class="select-content-element">Banane plantin</a>
-                    <a href="" class="select-content-element">Banane plantin</a>
-                    <a href="" class="select-content-element">Banane plantin</a>
-                    <a href="" class="select-content-element">Banane plantin</a>
-                    <a href="" class="select-content-element">Banane plantin</a>
-                    <a href="" class="select-content-element">Banane plantin</a>
-                    <a href="" class="select-content-element">Banane plantin</a>
-                    <a href="" class="select-content-element">Banane plantin</a>
-                    <a href="" class="select-content-element">Banane plantin</a>
-                    <a href="" class="select-content-element">Banane plantin</a>
-                    <a href="" class="select-content-element">Banane plantin</a>
-                    <a href="" class="select-content-element">Banane plantin</a>
-                </div>
-            </div>
-
-            <div class="select">
-                <input name="select-ustensils" id="select-ustensils" type="text">
-                <!-- <div class="select-content"></div> -->
-                </input>
-                <i id="icon-ustensils-down" class="fas fa-angle-down icon-ustensils" onclick="expandUstensils('select-ustensils')"></i>
-                <i id="icon-ustensils-up" class="fas fa-angle-up icon-ustensils" onclick="reduceUstensils('select-ustensils')"></i>
-                <div id="select-content-ustensils" class="select-content-elements">
-                    <a href="" class="select-content-element">Moutarde de Dijon</a>
+                <input name="select-ustensils" id="select-ustensils" class="fond-ustensils" type="text" placeholder="Ustensiles">
+                <i id="icon-ustensils-down" class="fas fa-angle-down fond-ustensils" onclick="expandSelects('ustensils')"></i>
+                <i id="icon-ustensils-up" class="fas fa-angle-up fond-ustensils" onclick="reduceSelects('ustensils')"></i>
+                <div id="select-content-ustensils" class="select-content-elements fond-ustensils">
+                    <a href="#" class="select-content-element" onclick="addFilter('ustensils', this)">Moutarde de Dijon</a>
                     <a href="" class="select-content-element">Manel</a>
                     <a href="" class="select-content-element">Manel</a>
                     <a href="" class="select-content-element">Manel</a>
@@ -177,156 +172,13 @@
                 </div>
             </article>
 
-            <article class="cellule-recette">
-                <img src="" alt="">
-
-                <div class="cellule-recette-header">
-                    <h2>Limonade de coco</h2>
-                    <span>
-                        <i class="far fa-clock"></i> 60 min
-                    </span>
-                </div>
-
-                <div class="cellule-recette-content">
-                    <ul>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                    </ul>
-                    <p>
-                        Lorem ipsum dolor sit amet. At quos omnis ab velit temporibus vel quis voluptate id possimus velit.
-                    </p>
-                </div>
-            </article>
-
-            <article class="cellule-recette">
-                <img src="" alt="">
-
-                <div class="cellule-recette-header">
-                    <h2>Limonade de coco</h2>
-                    <span>
-                        <i class="far fa-clock"></i> 60 min
-                    </span>
-                </div>
-
-                <div class="cellule-recette-content">
-                    <ul>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                    </ul>
-                    <p>
-                        Lorem ipsum dolor sit amet. At quos omnis ab velit temporibus vel quis voluptate id possimus velit.
-                    </p>
-                </div>
-            </article>
-
-            <article class="cellule-recette">
-                <img src="" alt="">
-
-                <div class="cellule-recette-header">
-                    <h2>Limonade de coco</h2>
-                    <span>
-                        <i class="far fa-clock"></i> 60 min
-                    </span>
-                </div>
-
-                <div class="cellule-recette-content">
-                    <ul>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                    </ul>
-                    <p>
-                        Lorem ipsum dolor sit amet. At quos omnis ab velit temporibus vel quis voluptate id possimus velit.
-                    </p>
-                </div>
-            </article>
-
-            <article class="cellule-recette">
-                <img src="" alt="">
-
-                <div class="cellule-recette-header">
-                    <h2>Limonade de coco</h2>
-                    <span>
-                        <i class="far fa-clock"></i> 60 min
-                    </span>
-                </div>
-
-                <div class="cellule-recette-content">
-                    <ul>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                    </ul>
-                    <p>
-                        Lorem ipsum dolor sit amet. At quos omnis ab velit temporibus vel quis voluptate id possimus velit.
-                    </p>
-                </div>
-            </article>
-
-            <article class="cellule-recette">
-                <img src="" alt="">
-
-                <div class="cellule-recette-header">
-                    <h2>Limonade de coco</h2>
-                    <span>
-                        <i class="far fa-clock"></i> 60 min
-                    </span>
-                </div>
-
-                <div class="cellule-recette-content">
-                    <ul>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                    </ul>
-                    <p>
-                        Lorem ipsum dolor sit amet. At quos omnis ab velit temporibus vel quis voluptate id possimus velit.
-                    </p>
-                </div>
-            </article>
-
-            <article class="cellule-recette">
-                <img src="" alt="">
-
-                <div class="cellule-recette-header">
-                    <h2>Limonade de coco</h2>
-                    <span>
-                        <i class="far fa-clock"></i> 60 min
-                    </span>
-                </div>
-
-                <div class="cellule-recette-content">
-                    <ul>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                        <li> <b>Thon : </b> 20g</li>
-                    </ul>
-                    <p>
-                        Lorem ipsum dolor sit amet. At quos omnis ab velit temporibus vel quis voluptate id possimus velit.
-                    </p>
-                </div>
-            </article>
-
         </section>
     </main>
 
 
     <script type="text/javascript" src="data.js"></script>
-    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="functions.js"></script>
+    <script type="module" src="app.js"></script>
 
 </body>
 
