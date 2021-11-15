@@ -178,7 +178,7 @@ header img {
 
 .select-content-elements {
     display: none;
-    grid-template-columns: repeat(auto-fill, 130px);
+    grid-template-columns: repeat(auto-fill, 140px);
     justify-content: space-between;
     row-gap: 5px;
     position: absolute;

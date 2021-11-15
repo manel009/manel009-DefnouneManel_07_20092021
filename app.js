@@ -29,4 +29,16 @@ for (var recette of recettes) {
 
 }
 
+// On formatte les donnees des lists
+listIngredients = listIngredients.map(ingredientName => upperCaseFirstLetter(ingredientName));
+listAppareils = listAppareils.map(appareilName => upperCaseFirstLetter(appareilName));
+listUstensils = listUstensils.map(ustensilName => upperCaseFirstLetter(ustensilName));
+
 // Supprimer les doublons
+listIngredients = [...new Set(listIngredients)];
+listAppareils = [...new Set(listAppareils)];
+listUstensils = [...new Set(listUstensils)];
+
+listIngredients.map(ingredientName => addElementToDropdown(ingredientName, 'ingredients'));
+listAppareils.map(appareilName => addElementToDropdown(appareilName, 'appareils'));
+listUstensils.map(ustensilName => addElementToDropdown(ustensilName, 'ustensils'));

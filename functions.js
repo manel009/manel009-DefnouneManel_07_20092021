@@ -6,7 +6,7 @@ function expandSelects(param) {
     //METHOD 1 : on rend dynamique l'id select-XXXXXXX avec la valeur de param puis on recupere l'element avec l'id genere
     let idElementToExpand = 'select-' + param;
     let elementToExpand = document.getElementById(idElementToExpand);
-    elementToExpand.style.width = "350px";
+    elementToExpand.style.width = "400px";
     elementToExpand.style.borderBottomLeftRadius = 0;
     // mETHOD 2 : on verifie le contenu de param et selon sa valeur, on recupere un select differents
     if (param == "ingredients") {
@@ -169,4 +169,26 @@ function generateHtmlRecette(recette) {
     sectionRecette.appendChild(articleRecette);
 
 
+}
+
+
+/**
+ * Met la premiere lettre en maj
+ * @param {*} string 
+ * @returns 
+ */
+function upperCaseFirstLetter(string) {
+    string = string.toLowerCase();
+    return string.charAt(0).toUpperCase() + string.slice(1);
+
+}
+
+/**
+ * 
+ * @param {*} element 
+ * @param {*} typeSelect 
+ */
+function addElementToDropdown(element, typeSelect) {
+    let divContent = document.getElementById("select-content-" + typeSelect);
+    divContent.innerHTML += '<a href="#" class="select-content-element" onclick="addFilter(\'' + typeSelect + '\', this)">' + element + '</a>';
 }
