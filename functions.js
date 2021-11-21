@@ -1,5 +1,6 @@
 /**
  * param = ingredients, ustensils ou appareils
+ * 
  * @param {*} param 
  */
 function expandSelects(param) {
@@ -47,6 +48,7 @@ function expandSelects(param) {
 
 /**
  * param = ingredients, ustensils ou appareils
+ * 
  * @param {*} param 
  */
 function reduceSelects(param) {
@@ -78,6 +80,7 @@ function reduceSelects(param) {
 
 /**
  * Ajoute l'element clique en tant que filtre actif
+ * 
  * @param {*} typeFilter 
  * @param {*} elementHtml 
  */
@@ -96,13 +99,18 @@ function addFilter(typeFilter, elementHtml) {
 
 /**
  * Supprime le parent de l'element donne.
+ * 
  *  @param {*} element 
  */
 function deleteParent(element) {
     element.parentNode.remove();
 }
 
-
+/**
+ * Genere le html d'un bloc recette.
+ * 
+ * @param {*} recette 
+ */
 function generateHtmlRecette(recette) {
     /*
         <article class="cellule-recette">
@@ -173,7 +181,8 @@ function generateHtmlRecette(recette) {
 
 
 /**
- * Met la premiere lettre en maj
+ * Met la premiere lettre en maj.
+ * 
  * @param {*} string 
  * @returns 
  */
@@ -184,11 +193,111 @@ function upperCaseFirstLetter(string) {
 }
 
 /**
+ * Ajoute les elements dans les listes deroulantes.
  * 
  * @param {*} element 
  * @param {*} typeSelect 
  */
 function addElementToDropdown(element, typeSelect) {
+    // On recupere la div ou l'on va ajouter l'element
     let divContent = document.getElementById("select-content-" + typeSelect);
+    // Ajoute une nouvelle balise a dans la div
     divContent.innerHTML += '<a href="#" class="select-content-element" onclick="addFilter(\'' + typeSelect + '\', this)">' + element + '</a>';
+}
+
+/**
+ * Evenement onkeyup du champs de recherche principale.
+ * Si 3 caracters saisient au minimum, filtres les recettes et les filtres.
+ * @param {*} value 
+ */
+function searchRecipes(value) {
+    if (value.length > 2) {
+        reloadRecipes(value);
+    }
+
+}
+
+/**
+ * Recharge les recettes en resultats et met a jour les filtres
+ * @param {*} searchValue 
+ */
+function reloadRecipes(searchValue) {
+
+    // On initialise un tableau vide
+    var listIngredients = [];
+    var listAppareils = [];
+    var listUstensils = [];
+
+    // On vide les precedents resultats
+    document.getElementById("recettes-section").innerHTML = "";
+
+    // Pour chaque recette dans "recettes"
+    for (var recette of recettes) {
+
+        if (searchValue != "") {
+            // Pour la recette en cours de lecture, on recuperes ses ingredients et on les met dans ingredientsDeLaRecetteEnCoursDeLecture
+            let isAtLeastOneIngredientFound = false;
+            let ingredientsDeLaRecetteEnCoursDeLecture = recette.ingredients;
+
+            // Pour chaque ingredient du tableau ingredients de la recette en cours de lecture
+            ingredientsDeLaRecetteEnCoursDeLecture.forEach((ingredientEnCoursDeLecture) => {
+                if (ingredientEnCoursDeLecture.ingredient.includes(searchValue)) {
+                    isAtLeastOneIngredientFound = true;
+                }
+            });
+
+            if (recette.name.includes(searchValue)) {
+                addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
+            } else if (recette.description.includes(searchValue)) {
+                addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
+            } else if (isAtLeastOneIngredientFound) {
+                addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
+            }
+        } else {
+            addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
+        }
+
+    }
+
+    // On formatte les donnees des liste
+    listIngredients = listIngredients.map(ingredientName => upperCaseFirstLetter(ingredientName));
+    listAppareils = listAppareils.map(appareilName => upperCaseFirstLetter(appareilName));
+    listUstensils = listUstensils.map(ustensilName => upperCaseFirstLetter(ustensilName));
+
+    // Supprimer les doublons
+    listIngredients = [...new Set(listIngredients)];
+    listAppareils = [...new Set(listAppareils)];
+    listUstensils = [...new Set(listUstensils)];
+
+    // Pour chaque elements des listes, on les ajoute a la liste deroulantes associée
+    listIngredients.map(ingredientName => addElementToDropdown(ingredientName, 'ingredients'));
+    listAppareils.map(appareilName => addElementToDropdown(appareilName, 'appareils'));
+    listUstensils.map(ustensilName => addElementToDropdown(ustensilName, 'ustensils'));
+}
+
+/**
+ * Affiche une recette sur le site et ajoutes ses ingredients, appareils et ustensils aux filtres.
+ * @param {*} recette 
+ * @param {*} listIngredients 
+ * @param {*} listAppareils 
+ * @param {*} listUstensils 
+ */
+function addRecipeToResult(recette, listIngredients, listAppareils, listUstensils) {
+    // Pour chaque ingredient du tableau ingredients de la recette en cours de lecture
+    recette.ingredients.forEach((ingredientEnCoursDeLecture) => {
+        // On ajoute la propriete ingredient de l'ogjet ingredient a la liste des ingredients
+        listIngredients.push(ingredientEnCoursDeLecture.ingredient);
+    });
+
+    // On ajoute les ustensils de la recette comme pour les ingredients 
+    recette.ustensils.forEach((ustensilDeLaRecetteEnCoursDeLecture) => {
+        listUstensils.push(ustensilDeLaRecetteEnCoursDeLecture);
+    });
+
+    // On ajoute l'appareil de la recette dans le tableau des appareils
+    listAppareils.push(recette.appliance);
+
+    //Enfin, on genere le code html du bloc recette
+    generateHtmlRecette(recette);
+
 }

@@ -21,7 +21,7 @@
 
     <main id="container">
         <section id="search-bar-section">
-            <input id="search-bar" class="search-bar" type="text" placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette">
+            <input id="search-bar" class="search-bar" type="text" placeholder="Rechercher un ingrédient, appareil, ustensiles ou une recette" onkeyup="searchRecipes(this.value)">
             <i class="fas fa-search icon-search"></i>
         </section>
 
@@ -50,11 +50,9 @@
                 <div id="select-content-ustensils" class="select-content-elements fond-ustensils"></div>
             </div>
 
-
         </section>
 
-        <section id="recettes-section">
-        </section>
+        <section id="recettes-section"></section>
 
     </main>
 
