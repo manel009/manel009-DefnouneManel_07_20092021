@@ -89,11 +89,20 @@ function addFilter(typeFilter, elementHtml) {
     //1 je cree mon bloc filtre
     let divFilter = document.createElement('div');
     divFilter.className = "active-filter fond-" + typeFilter;
-    divFilter.innerHTML = textFilter + '<i class="far fa-times-circle" onclick="deleteParent(this)"></i>';
+    divFilter.innerHTML = '<span>' + textFilter + '</span><i class="far fa-times-circle" onclick="deleteFilter(this)"></i>';
 
     //2 j'ajoute mon bloc dans active-filters
     let divActiveFilters = document.getElementById("active-filters");
     divActiveFilters.appendChild(divFilter);
+
+    // Actualise les resultats en avec le filtre ajouté
+    let filter = { "type": typeFilter, "name": textFilter };
+    window.filters = [];
+    window.filters.push(filter);
+    window.filters.forEach((filter) => {
+        reloadRecipesWithFilter(filter.type, filter.name);
+    });
+
 
 }
 
@@ -102,7 +111,27 @@ function addFilter(typeFilter, elementHtml) {
  * 
  *  @param {*} element 
  */
-function deleteParent(element) {
+function deleteFilter(element) {
+    let type = "";
+    let name = element.parentNode.innerText;
+    var search = document.getElementById('search-bar').value;
+    if (element.parentNode.className.includes('ingredients')) {
+        type = 'ingredients';
+    } else if (element.parentNode.className.includes('appareils')) {
+        type = 'appareils';
+    } else if (element.parentNode.className.includes('ustensils')) {
+        type = 'ustensils';
+    }
+
+    window.filters.filter(function(filter) {
+        return filter.type != type && filter.name != name;
+    });
+
+    reloadRecipes(search);
+    window.filters.forEach((filter) => {
+        reloadRecipesWithFilter(filter.type, filter.name);
+    });
+
     element.parentNode.remove();
 }
 
@@ -112,31 +141,6 @@ function deleteParent(element) {
  * @param {*} recette 
  */
 function generateHtmlRecette(recette) {
-    /*
-        <article class="cellule-recette">
-                    <img src="" alt="">
-
-                    <div class="cellule-recette-header">
-                        <h2>Limonade de coco</h2>
-                        <span>
-                            <i class="far fa-clock"></i> 60 min
-                        </span>
-                    </div>
-
-                    <div class="cellule-recette-content">
-                        <ul>
-                            <li> <b>Thon : </b> 20g</li>
-                            <li> <b>Thon : </b> 20g</li>
-                            <li> <b>Thon : </b> 20g</li>
-                            <li> <b>Thon : </b> 20g</li>
-                            <li> <b>Thon : </b> 20g</li>
-                        </ul>
-                        <p>
-                            Mettre les glaçons à votre goût dans le blender, ajouter le lait, la crème de coco, le jus de 2 citrons et le sucre. Mixer jusqu'à avoir la consistence désirée
-                        </p>
-                    </div>
-        </article>
-    */
     // On cree l'element html article de la recette
     let articleRecette = document.createElement('article');
     articleRecette.className = "cellule-recette";
@@ -170,13 +174,9 @@ function generateHtmlRecette(recette) {
     divRecetteContent.appendChild(ulIngredients);
     divRecetteContent.innerHTML += "<p>" + recette.description + "</p>";
 
-
-
     // On ajoute l'article de la recette dansla sectiondes recettes
     let sectionRecette = document.getElementById('recettes-section');
     sectionRecette.appendChild(articleRecette);
-
-
 }
 
 
@@ -206,6 +206,19 @@ function addElementToDropdown(element, typeSelect) {
 }
 
 /**
+ * Supprime les elements dans les listes deroulantes.
+ * 
+ * @param {*} element 
+ * @param {*} typeSelect 
+ */
+function cleanElementToDropdown(typeSelect) {
+    // On recupere la div ou l'on va ajouter l'element
+    let divContent = document.getElementById("select-content-" + typeSelect);
+    // supprime le contenu de la div
+    divContent.innerHTML = '';
+}
+
+/**
  * Evenement onkeyup du champs de recherche principale.
  * Si 3 caracters saisient au minimum, filtres les recettes et les filtres.
  * @param {*} value 
@@ -227,6 +240,7 @@ function reloadRecipes(searchValue) {
     var listIngredients = [];
     var listAppareils = [];
     var listUstensils = [];
+    var listRecipesResult = [];
 
     // On vide les precedents resultats
     document.getElementById("recettes-section").innerHTML = "";
@@ -248,10 +262,13 @@ function reloadRecipes(searchValue) {
 
             if (recette.name.includes(searchValue)) {
                 addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
+                listRecipesResult.push(recette);
             } else if (recette.description.includes(searchValue)) {
                 addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
+                listRecipesResult.push(recette);
             } else if (isAtLeastOneIngredientFound) {
                 addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
+                listRecipesResult.push(recette);
             }
         } else {
             addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
@@ -270,9 +287,78 @@ function reloadRecipes(searchValue) {
     listUstensils = [...new Set(listUstensils)];
 
     // Pour chaque elements des listes, on les ajoute a la liste deroulantes associée
+    cleanElementToDropdown('ingredients');
+    cleanElementToDropdown('appareils');
+    cleanElementToDropdown('ustensils');
     listIngredients.map(ingredientName => addElementToDropdown(ingredientName, 'ingredients'));
     listAppareils.map(appareilName => addElementToDropdown(appareilName, 'appareils'));
     listUstensils.map(ustensilName => addElementToDropdown(ustensilName, 'ustensils'));
+
+    //on ajoute les recettes, ingredients, apparaiels et ustensils dans le global
+    window.recipes = listRecipesResult;
+    window.ingredients = listIngredients;
+    window.appareils = listAppareils;
+    window.ustensils = listUstensils;
+}
+
+/**
+ * 
+ * @param {*} typeFilter 
+ * @param {*} textFilter 
+ */
+function reloadRecipesWithFilter(typeFilter, textFilter) {
+    // On initialise un tableau vide
+    var listIngredients = [];
+    var listAppareils = [];
+    var listUstensils = [];
+    var listRecipesResult = [];
+
+    // On vide les precedents resultats
+    document.getElementById("recettes-section").innerHTML = "";
+
+    // Pour chaque recette dans "recettes"
+    for (var recette of window.recipes) {
+
+        if (typeFilter == 'ingredients') {
+            recette.ingredients.forEach((ingredientEnCoursDeLecture) => {
+                if (ingredientEnCoursDeLecture.ingredient.includes(textFilter)) {
+                    addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
+                    listRecipesResult.push(recette);
+                }
+            });
+
+        } else if (typeFilter == 'appareils' && recette.appliance.includes(textFilter)) {
+            addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
+            listRecipesResult.push(recette);
+        } else if (typeFilter == 'ustensils' && recette.ustensils.includes(textFilter.toLowerCase())) {
+            addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
+            listRecipesResult.push(recette);
+        }
+
+    }
+    // On formatte les donnees des liste
+    listIngredients = listIngredients.map(ingredientName => upperCaseFirstLetter(ingredientName));
+    listAppareils = listAppareils.map(appareilName => upperCaseFirstLetter(appareilName));
+    listUstensils = listUstensils.map(ustensilName => upperCaseFirstLetter(ustensilName));
+
+    // Supprimer les doublons
+    listIngredients = [...new Set(listIngredients)];
+    listAppareils = [...new Set(listAppareils)];
+    listUstensils = [...new Set(listUstensils)];
+
+    // Pour chaque elements des listes, on les ajoute a la liste deroulantes associée
+    cleanElementToDropdown('ingredients');
+    cleanElementToDropdown('appareils');
+    cleanElementToDropdown('ustensils');
+    listIngredients.map(ingredientName => addElementToDropdown(ingredientName, 'ingredients'));
+    listAppareils.map(appareilName => addElementToDropdown(appareilName, 'appareils'));
+    listUstensils.map(ustensilName => addElementToDropdown(ustensilName, 'ustensils'));
+
+    //on ajoute les recettes, ingredients, apparaiels et ustensils dans le global
+    window.recipes = listRecipesResult;
+    window.ingredients = listIngredients;
+    window.appareils = listAppareils;
+    window.ustensils = listUstensils;
 }
 
 /**
