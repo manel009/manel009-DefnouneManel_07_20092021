@@ -221,11 +221,14 @@ function cleanElementToDropdown(typeSelect) {
 /**
  * Evenement onkeyup du champs de recherche principale.
  * Si 3 caracters saisient au minimum, filtres les recettes et les filtres.
+ * Si champs vide, affiche toutes les recettes.
  * @param {*} value 
  */
 function searchRecipes(value) {
     if (value.length > 2) {
         reloadRecipes(value);
+    } else if (value.length == 0) {
+        reloadRecipes('');
     }
 
 }
@@ -241,6 +244,8 @@ function reloadRecipes(searchValue) {
     var listAppareils = [];
     var listUstensils = [];
     var listRecipesResult = [];
+    var flagIsResult = false;
+    var messageNoRecipesFound = 'Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc.';
 
     // On vide les precedents resultats
     document.getElementById("recettes-section").innerHTML = "";
@@ -263,12 +268,15 @@ function reloadRecipes(searchValue) {
             if (recette.name.includes(searchValue)) {
                 addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
                 listRecipesResult.push(recette);
+                flagIsResult = true;
             } else if (recette.description.includes(searchValue)) {
                 addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
                 listRecipesResult.push(recette);
+                flagIsResult = true;
             } else if (isAtLeastOneIngredientFound) {
                 addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
                 listRecipesResult.push(recette);
+                flagIsResult = true;
             }
         } else {
             addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
@@ -276,29 +284,36 @@ function reloadRecipes(searchValue) {
 
     }
 
-    // On formatte les donnees des liste
-    listIngredients = listIngredients.map(ingredientName => upperCaseFirstLetter(ingredientName));
-    listAppareils = listAppareils.map(appareilName => upperCaseFirstLetter(appareilName));
-    listUstensils = listUstensils.map(ustensilName => upperCaseFirstLetter(ustensilName));
+    // Si j'ai au moins une recette en resultat ou pas de mot rechercher
+    if (flagIsResult || searchValue == "") {
+        // On formatte les donnees des liste
+        listIngredients = listIngredients.map(ingredientName => upperCaseFirstLetter(ingredientName));
+        listAppareils = listAppareils.map(appareilName => upperCaseFirstLetter(appareilName));
+        listUstensils = listUstensils.map(ustensilName => upperCaseFirstLetter(ustensilName));
 
-    // Supprimer les doublons
-    listIngredients = [...new Set(listIngredients)];
-    listAppareils = [...new Set(listAppareils)];
-    listUstensils = [...new Set(listUstensils)];
+        // Supprimer les doublons
+        listIngredients = [...new Set(listIngredients)];
+        listAppareils = [...new Set(listAppareils)];
+        listUstensils = [...new Set(listUstensils)];
 
-    // Pour chaque elements des listes, on les ajoute a la liste deroulantes associée
-    cleanElementToDropdown('ingredients');
-    cleanElementToDropdown('appareils');
-    cleanElementToDropdown('ustensils');
-    listIngredients.map(ingredientName => addElementToDropdown(ingredientName, 'ingredients'));
-    listAppareils.map(appareilName => addElementToDropdown(appareilName, 'appareils'));
-    listUstensils.map(ustensilName => addElementToDropdown(ustensilName, 'ustensils'));
+        // Pour chaque elements des listes, on les ajoute a la liste deroulantes associée
+        cleanElementToDropdown('ingredients');
+        cleanElementToDropdown('appareils');
+        cleanElementToDropdown('ustensils');
+        listIngredients.map(ingredientName => addElementToDropdown(ingredientName, 'ingredients'));
+        listAppareils.map(appareilName => addElementToDropdown(appareilName, 'appareils'));
+        listUstensils.map(ustensilName => addElementToDropdown(ustensilName, 'ustensils'));
 
-    //on ajoute les recettes, ingredients, apparaiels et ustensils dans le global
-    window.recipes = listRecipesResult;
-    window.ingredients = listIngredients;
-    window.appareils = listAppareils;
-    window.ustensils = listUstensils;
+        //on ajoute les recettes, ingredients, apparaiels et ustensils dans le global
+        window.recipes = listRecipesResult;
+        window.ingredients = listIngredients;
+        window.appareils = listAppareils;
+        window.ustensils = listUstensils;
+    } else {
+        document.getElementById("recettes-section").innerHTML = "<h2>" + messageNoRecipesFound + "</h2>";
+    }
+
+
 }
 
 /**
@@ -385,5 +400,26 @@ function addRecipeToResult(recette, listIngredients, listAppareils, listUstensil
 
     //Enfin, on genere le code html du bloc recette
     generateHtmlRecette(recette);
+
+}
+
+/**
+ * Filtre la liste des ingredients
+ * 
+ * @param {*} searchIngredientValue 
+ */
+function filterIngredientBySearch(searchIngredientValue) {
+    // 1. recuperer l'ensemble des ingredients de la liste
+    var listIngredients = window.ingredients;
+    var listIngredientsFound = [];
+    // 2. filter les ingredients de la listes
+    for (var ingredient of listIngredients) {
+        if (ingredient.includes(searchIngredientValue)) {
+            listIngredientsFound.push(ingredient);
+        }
+    }
+    // 3. mettre a jour la liste afficher
+    cleanElementToDropdown('ingredients');
+    listIngredientsFound.map(ingredientName => addElementToDropdown(ingredientName, 'ingredients'));
 
 }

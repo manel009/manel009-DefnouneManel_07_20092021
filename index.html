@@ -30,7 +30,7 @@
             <div id="active-filters" class="active-filters"></div>
 
             <div class="select">
-                <input name="select-ingredients" id="select-ingredients" class="fond-ingredients" type="text" placeholder="Ingredients">
+                <input name="select-ingredients" id="select-ingredients" class="fond-ingredients" type="text" placeholder="Ingredients" onkeyup="filterIngredientBySearch(this.value)" onclick="expandSelects('ingredients')">
                 <i id="icon-ingredients-down" class="fas fa-angle-down fond-ingredients" onclick="expandSelects('ingredients')"></i>
                 <i id="icon-ingredients-up" class="fas fa-angle-up fond-ingredients" onclick="reduceSelects('ingredients')"></i>
                 <div id="select-content-ingredients" class="select-content-elements fond-ingredients"></div>
