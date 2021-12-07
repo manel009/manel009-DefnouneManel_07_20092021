@@ -37,14 +37,14 @@
             </div>
 
             <div class="select">
-                <input name="select-appareils" id="select-appareils" class="fond-appareils" type="text" placeholder="Appareils">
+                <input name="select-appareils" id="select-appareils" class="fond-appareils" type="text" placeholder="Appareils" onkeyup="filterAppareilsBySearch(this.value)" onclick="expandSelects('appareils')">
                 <i id="icon-appareils-down" class="fas fa-angle-down fond-appareils" onclick="expandSelects('appareils')"></i>
                 <i id="icon-appareils-up" class="fas fa-angle-up fond-appareils" onclick="reduceSelects('appareils')"></i>
                 <div id="select-content-appareils" class="select-content-elements fond-appareils"></div>
             </div>
 
             <div class="select">
-                <input name="select-ustensils" id="select-ustensils" class="fond-ustensils" type="text" placeholder="Ustensiles">
+                <input name="select-ustensils" id="select-ustensils" class="fond-ustensils" type="text" placeholder="Ustensiles" onkeyup="filterUstensilsBySearch(this.value)" onclick="expandSelects('ustensils')">
                 <i id="icon-ustensils-down" class="fas fa-angle-down fond-ustensils" onclick="expandSelects('ustensils')"></i>
                 <i id="icon-ustensils-up" class="fas fa-angle-up fond-ustensils" onclick="reduceSelects('ustensils')"></i>
                 <div id="select-content-ustensils" class="select-content-elements fond-ustensils"></div>

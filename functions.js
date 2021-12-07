@@ -423,3 +423,39 @@ function filterIngredientBySearch(searchIngredientValue) {
     listIngredientsFound.map(ingredientName => addElementToDropdown(ingredientName, 'ingredients'));
 
 }
+
+/**
+ * Filtre la liste des appareils
+ * 
+ * @param {*} searchAppareilsValue 
+ */
+function filterAppareilsBySearch(searchAppareilsValue) {
+    var listAppareils = window.appareils;
+    var listAppareilsFound = [];
+    for (var appareil of listAppareils) {
+        if (appareil.includes(searchAppareilsValue)) {
+            listAppareilsFound.push(appareil);
+        }
+    }
+    cleanElementToDropdown('appareils');
+    listAppareilsFound.map(elementName => addElementToDropdown(elementName, 'appareils'));
+
+}
+
+/**
+ * Filtre la liste des ustensils
+ * 
+ * @param {*} searchUstensilesValue 
+ */
+function filterUstensilsBySearch(searchUstensilsValue) {
+    var listUstensils = window.ustensils;
+    var listUstensilsFound = [];
+    for (var ustensil of listUstensils) {
+        if (ustensil.includes(searchUstensilsValue)) {
+            listUstensilsFound.push(ustensil);
+        }
+    }
+    cleanElementToDropdown('ustensils');
+    listUstensilsFound.map(elementName => addElementToDropdown(elementName, 'ustensils'));
+
+}
