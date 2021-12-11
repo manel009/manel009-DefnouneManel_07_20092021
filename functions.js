@@ -300,7 +300,8 @@ function reloadRecipes(searchValue) {
     var flagIsResult = false;
     var messageNoRecipesFound = 'Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc.';
     var activeFilters = window.filters;
-    var isRecipeOkWithFilter = true;
+    var isRecipeOkWithAllFilters = true;
+    var isRecipeOkWithCurrentFilter;
     let isAtLeastOneIngredientFound = false;
 
     // On vide les recettes affichés
@@ -320,36 +321,82 @@ function reloadRecipes(searchValue) {
     // Pour chaque recette dans la liste de toutes les recettes
     for (var recette of recettes) {
 
-        // Si on a des filtres (ing, ust ou app) selectionné, On filtre d'abord par ces filtres
+        // Si on a des filtres (ingrd, ust ou appareil) selectionné, On filtre d'abord par ces filtres
         if (activeFilters != undefined && activeFilters.length > 0) {
-            // Pour chaque filtre, on regarde si la recette correspond 
-            window.filters.forEach((filter) => {
-                isRecipeOkWithFilter = false;
 
-                if (filter.type == 'ingredients') {
-                    recette.ingredients.forEach((ingredientEnCoursDeLecture) => {
-                        if (ingredientEnCoursDeLecture.ingredient === filter.name) {
-                            isRecipeOkWithFilter = true;
-                            if (searchValue != "" && ingredientEnCoursDeLecture.ingredient.includes(searchValue)) {
-                                isAtLeastOneIngredientFound = true;
+            // On part du principe que la recette passe tous les filtres
+            isRecipeOkWithAllFilters = true;
+            // Mais on dit que pour l'intant, le premier filtre ne passent pas car il n'a pas encore été testé.
+            // Si isRecipeOkWithCurrentFilter passe a true, cela veut dire que la recette passe le filtre
+            // Si il reste a false, la recette n'as pas passé le filtre
+            isRecipeOkWithCurrentFilter = false;
+
+            // Pour chaque filtre, on regarde si la recette correspond 
+            for (var filter of window.filters) {
+
+                // Tant que la recette passe les filtres :
+                if (isRecipeOkWithAllFilters) {
+                    // On teste le filtre en cours dans boucle
+                    // Si c'est un filtre sur un ingredient :
+                    if (filter.type == 'ingredients') {
+
+                        // Des qu'un ingredient match avec le filtre, on dit isRecipeOkWithCurrentFilter = true
+                        for (var ingredientEnCoursDeLecture of recette.ingredients) {
+                            isRecipeOkWithCurrentFilter = false;
+                            if (ingredientEnCoursDeLecture.ingredient.toLowerCase() === filter.name.toLowerCase()) {
+                                isRecipeOkWithCurrentFilter = true;
+                                if (searchValue != "" && ingredientEnCoursDeLecture.ingredient.includes(searchValue)) {
+                                    isAtLeastOneIngredientFound = true;
+                                }
+                                break;
                             }
                         }
-                    });
 
-                } else if (filter.type == 'appareils' && recette.appliance === filter.name) {
-                    isRecipeOkWithFilter = true;
-                } else if (filter.type == 'ustensils' && recette.ustensils === filter.name.toLowerCase()) {
-                    isRecipeOkWithFilter = true;
+                    }
+                    // Si c'est un filtre sur un appareil :
+                    else if (filter.type == 'appareils') {
+                        isRecipeOkWithCurrentFilter = false;
+                        if (recette.appliance.toLowerCase() === filter.name.toLowerCase()) {
+                            isRecipeOkWithCurrentFilter = true;
+                        }
+
+                    }
+                    // Si c'est un filtre sur un ustensil :
+                    else if (filter.type == 'ustensils') {
+
+                        // Des qu'un ustensil match avec le filtre, on dit isRecipeOkWithCurrentFilter = true
+                        for (var ustensil of recette.ustensils) {
+                            isRecipeOkWithCurrentFilter = false;
+                            if (ustensil.toLowerCase() === filter.name.toLowerCase()) {
+                                isRecipeOkWithCurrentFilter = true;
+                                break;
+                            }
+                        }
+
+                    }
+
+                    // Si le filtre en cours dans boucle n'est pas passé, 
+                    // on dit que la recette ne passe pas les filtres.
+                    if (!isRecipeOkWithCurrentFilter) {
+                        isRecipeOkWithAllFilters = false;
+                    }
                 }
 
-            });
-        } else {
-            // Si pas de filtres actif, on declare la recette OK quoiqu'il arrive
-            isRecipeOkWithFilter = true;
+
+
+            }
+
         }
 
-        // On filtre ensuite par ce qui a ete saisie dans le champs de recherche
-        if (isRecipeOkWithFilter) {
+        // Si pas de filtres actif, on declare la recette OK quoiqu'il arrive
+        else {
+            isRecipeOkWithAllFilters = true;
+        }
+
+        // Si la recette à reussie à passer tous les filtres :
+        if (isRecipeOkWithAllFilters) {
+            // On regarde maintenant si l'use a tapé qlqchose dans la barre de recherche
+            // Si il a saisi qlqchoqe, on regarde si la recette correspond a la recherche du user
             if (searchValue != "") {
                 if (recette.name.includes(searchValue)) {
                     addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
@@ -364,8 +411,9 @@ function reloadRecipes(searchValue) {
                     listRecipesResult.push(recette);
                     flagIsResult = true;
                 }
-            } else {
-                // si champs de recherche vide, on ajoute la recette quoi qu'il arrive
+            }
+            // Sinon, si champs de recherche vide, on ajoute la recette quoi qu'il arrive
+            else {
                 addRecipeToResult(recette, listIngredients, listAppareils, listUstensils);
             }
         }
@@ -374,6 +422,7 @@ function reloadRecipes(searchValue) {
 
     // Si j'ai au moins une recette en resultat ou pas de mot rechercher
     if (flagIsResult || searchValue == "") {
+
         // On formatte les donnees des listes
         listIngredients = listIngredients.map(ingredientName => upperCaseFirstLetter(ingredientName));
         listAppareils = listAppareils.map(appareilName => upperCaseFirstLetter(appareilName));
@@ -398,8 +447,9 @@ function reloadRecipes(searchValue) {
         window.ingredients = listIngredients;
         window.appareils = listAppareils;
         window.ustensils = listUstensils;
-    } else {
-        // Si pas de resultat, on affiche le message l'indiquant
+    }
+    // Si pas de resultat, on affiche le message l'indiquant
+    else {
         document.getElementById("recettes-section").innerHTML = "<h2>" + messageNoRecipesFound + "</h2>";
     }
 
