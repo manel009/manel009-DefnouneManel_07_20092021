@@ -117,11 +117,11 @@ function filterIngredientBySearch(searchIngredientValue) {
     var listIngredients = window.ingredients;
     var listIngredientsFound = [];
     // 2. filter les ingredients de la listes
-    for (var ingredient of listIngredients) {
+    listIngredients.forEach((ingredient) => {
         if (ingredient.includes(searchIngredientValue)) {
             listIngredientsFound.push(ingredient);
         }
-    }
+    });
     // 3. mettre a jour la liste afficher
     cleanElementToDropdown('ingredients');
     listIngredientsFound.map(ingredientName => addElementToDropdown(ingredientName, 'ingredients'));
@@ -136,11 +136,11 @@ function filterIngredientBySearch(searchIngredientValue) {
 function filterAppareilsBySearch(searchAppareilsValue) {
     var listAppareils = window.appareils;
     var listAppareilsFound = [];
-    for (var appareil of listAppareils) {
+    listAppareils.forEach((appareil) => {
         if (appareil.includes(searchAppareilsValue)) {
             listAppareilsFound.push(appareil);
         }
-    }
+    });
     cleanElementToDropdown('appareils');
     listAppareilsFound.map(elementName => addElementToDropdown(elementName, 'appareils'));
 
@@ -154,11 +154,11 @@ function filterAppareilsBySearch(searchAppareilsValue) {
 function filterUstensilsBySearch(searchUstensilsValue) {
     var listUstensils = window.ustensils;
     var listUstensilsFound = [];
-    for (var ustensil of listUstensils) {
+    listUstensils.forEach((ustensil) => {
         if (ustensil.includes(searchUstensilsValue)) {
             listUstensilsFound.push(ustensil);
         }
-    }
+    });
     cleanElementToDropdown('ustensils');
     listUstensilsFound.map(elementName => addElementToDropdown(elementName, 'ustensils'));
 
@@ -252,8 +252,7 @@ function generateHtmlRecette(recette) {
     articleRecette.appendChild(divRecetteContent);
 
     let ulIngredients = document.createElement('ul');
-    for (var ingredient of recette.ingredients) {
-
+    recette.ingredients.forEach((ingredient) => {
         if (ingredient.unit == undefined && ingredient.quantity == undefined) {
             ulIngredients.innerHTML += " <li> <b>" + ingredient.ingredient + " </b></li>";
         } else if (ingredient.unit == undefined) {
@@ -261,8 +260,8 @@ function generateHtmlRecette(recette) {
         } else {
             ulIngredients.innerHTML += " <li> <b>" + ingredient.ingredient + " : </b> " + ingredient.quantity + " " + ingredient.unit + "</li>";
         }
+    });
 
-    }
     divRecetteContent.appendChild(ulIngredients);
     divRecetteContent.innerHTML += "<p>" + recette.description + "</p>";
 
@@ -283,7 +282,6 @@ function searchRecipes(value) {
     } else if (value.length == 0) {
         reloadRecipes('');
     }
-
 }
 
 /**
@@ -319,7 +317,7 @@ function reloadRecipes(searchValue) {
     // ----------------------------------------- DEBUUGGGGGGGGGGGGGGGGGGGGGGGGGG
 
     // Pour chaque recette dans la liste de toutes les recettes
-    for (var recette of recettes) {
+    recettes.forEach((recette) => {
 
         // Si on a des filtres (ingrd, ust ou appareil) selectionné, On filtre d'abord par ces filtres
         if (activeFilters != undefined && activeFilters.length > 0) {
@@ -332,7 +330,7 @@ function reloadRecipes(searchValue) {
             isRecipeOkWithCurrentFilter = false;
 
             // Pour chaque filtre, on regarde si la recette correspond 
-            for (var filter of window.filters) {
+            window.filters.forEach((filter) => {
 
                 // Tant que la recette passe les filtres :
                 if (isRecipeOkWithAllFilters) {
@@ -351,7 +349,6 @@ function reloadRecipes(searchValue) {
                                 break;
                             }
                         }
-
                     }
                     // Si c'est un filtre sur un appareil :
                     else if (filter.type == 'appareils') {
@@ -359,7 +356,6 @@ function reloadRecipes(searchValue) {
                         if (recette.appliance.toLowerCase() === filter.name.toLowerCase()) {
                             isRecipeOkWithCurrentFilter = true;
                         }
-
                     }
                     // Si c'est un filtre sur un ustensil :
                     else if (filter.type == 'ustensils') {
@@ -372,7 +368,6 @@ function reloadRecipes(searchValue) {
                                 break;
                             }
                         }
-
                     }
 
                     // Si le filtre en cours dans boucle n'est pas passé, 
@@ -382,9 +377,7 @@ function reloadRecipes(searchValue) {
                     }
                 }
 
-
-
-            }
+            });
 
         }
 
@@ -418,7 +411,7 @@ function reloadRecipes(searchValue) {
             }
         }
 
-    }
+    });
 
     // Si j'ai au moins une recette en resultat ou pas de mot rechercher
     if (flagIsResult || searchValue == "") {
@@ -452,8 +445,6 @@ function reloadRecipes(searchValue) {
     else {
         document.getElementById("recettes-section").innerHTML = "<h2>" + messageNoRecipesFound + "</h2>";
     }
-
-
 }
 
 /**
@@ -480,7 +471,6 @@ function addRecipeToResult(recette, listIngredients, listAppareils, listUstensil
 
     //Enfin, on genere le code html du bloc recette
     generateHtmlRecette(recette);
-
 }
 
 
@@ -498,5 +488,4 @@ function addRecipeToResult(recette, listIngredients, listAppareils, listUstensil
 function upperCaseFirstLetter(string) {
     string = string.toLowerCase();
     return string.charAt(0).toUpperCase() + string.slice(1);
-
 }
