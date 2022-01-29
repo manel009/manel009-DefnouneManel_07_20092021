@@ -305,17 +305,6 @@ function reloadRecipes(searchValue) {
     // On vide les recettes affichés
     document.getElementById("recettes-section").innerHTML = "";
 
-    // ----------------------------------------- DEBUUGGGGGGGGGGGGGGGGGGGGGGGGGG
-    // Fitrage par filtres choisient dans les listes deroulantes
-    if (activeFilters != undefined && activeFilters.length > 0) {
-        window.filters.forEach((filter) => {
-            console.log("Filtre actif : " + filter.name + " - " + filter.type);
-        });
-    } else {
-        console.log("Pas de filtres en cours");
-    }
-    // ----------------------------------------- DEBUUGGGGGGGGGGGGGGGGGGGGGGGGGG
-
     // Pour chaque recette dans la liste de toutes les recettes
     recettes.forEach((recette) => {
 
