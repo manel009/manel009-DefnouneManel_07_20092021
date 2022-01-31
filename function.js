@@ -307,16 +307,7 @@ function reloadRecipes(searchValue) {
     // On vide les recettes affichés
     document.getElementById("recettes-section").innerHTML = "";
 
-    // ----------------------------------------- DEBUUGGGGGGGGGGGGGGGGGGGGGGGGGG
-    // Fitrage par filtres choisient dans les listes deroulantes
-    if (activeFilters != undefined && activeFilters.length > 0) {
-        window.filters.forEach((filter) => {
-            console.log("Filtre actif : " + filter.name + " - " + filter.type);
-        });
-    } else {
-        console.log("Pas de filtres en cours");
-    }
-    // ----------------------------------------- DEBUUGGGGGGGGGGGGGGGGGGGGGGGGGG
+
 
     // Pour chaque recette dans la liste de toutes les recettes
     for (var recette of recettes) {
@@ -465,16 +456,14 @@ function reloadRecipes(searchValue) {
  */
 function addRecipeToResult(recette, listIngredients, listAppareils, listUstensils) {
     // Pour chaque ingredient du tableau ingredients de la recette en cours de lecture
-    recette.ingredients.forEach((ingredientEnCoursDeLecture) => {
+    for (var ingredientEnCoursDeLecture of recette.ingredients) {
         // On ajoute la propriete ingredient de l'ogjet ingredient a la liste des ingredients
         listIngredients.push(ingredientEnCoursDeLecture.ingredient);
-    });
-
+    }
     // On ajoute les ustensils de la recette comme pour les ingredients 
-    recette.ustensils.forEach((ustensilDeLaRecetteEnCoursDeLecture) => {
+    for (var ustensilDeLaRecetteEnCoursDeLecture of recette.ustensils) {
         listUstensils.push(ustensilDeLaRecetteEnCoursDeLecture);
-    });
-
+    }
     // On ajoute l'appareil de la recette dans le tableau des appareils
     listAppareils.push(recette.appliance);
 
