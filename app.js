@@ -1,4 +1,4 @@
 /**************************************************** */
 /** INITIALISATION LORSQU'ON ARRIVE SUR LE SITE ***** */
 /**************************************************** */
-reloadRecipes('');
+reloadRecipes('', true);

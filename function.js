@@ -190,7 +190,7 @@ function addFilter(typeFilter, elementHtml) {
 
     // actualisation des resulats
     var search = document.getElementById('search-bar').value;
-    reloadRecipes(search);
+    reloadRecipes(search, false);
 
 }
 
@@ -216,7 +216,7 @@ function deleteFilter(element, nameToDelete) {
 
     // actualisation des resulats
     var search = document.getElementById('search-bar').value;
-    reloadRecipes(search);
+    reloadRecipes(search, false);
 
     // suppression du bloc avec le filtre sur la page
     element.parentNode.remove();
@@ -279,9 +279,9 @@ function generateHtmlRecette(recette) {
  */
 function searchRecipes(value) {
     if (value.length > 2) {
-        reloadRecipes(value);
+        reloadRecipes(value, true);
     } else if (value.length == 0) {
-        reloadRecipes('');
+        reloadRecipes('', true);
     }
 
 }
@@ -290,7 +290,7 @@ function searchRecipes(value) {
  * Recharge les recettes en resultats et met a jour les filtres
  * @param {*} searchValue 
  */
-function reloadRecipes(searchValue) {
+function reloadRecipes(searchValue, isFromSearchBar) {
 
     // On initialise les variables utiles pour l'algoruthme
     var listIngredients = [];
@@ -306,7 +306,11 @@ function reloadRecipes(searchValue) {
 
     // On vide les recettes affichés
     document.getElementById("recettes-section").innerHTML = "";
-
+    // si on fait une nouvelle recherche depuis la barre , on reinitialise les tags
+    if (isFromSearchBar) {
+        window.filters = [];
+        document.getElementById("active-filters").innerHTML = "";
+    }
 
 
     // Pour chaque recette dans la liste de toutes les recettes
